@@ -12,9 +12,9 @@ export const useCycleList = (list:any[]) => {
 }
 */
 //export const useCycleList = (list:any[]) => {
-export const useCycleList = (list:Ref<any[]>) => {
+export const useCycleList = <T>(list:Ref<T[]>) => {
         
-        const activeIndex = ref(0);
+    const activeIndex = ref(0);
     const state = computed(()=> list[activeIndex.value]);
     
     const prev = ()=>{
@@ -24,7 +24,6 @@ export const useCycleList = (list:Ref<any[]>) => {
             activeIndex.value++;
         }
     };
-    
  
     const next = ()=>{
         if(activeIndex.value===0){
@@ -32,14 +31,16 @@ export const useCycleList = (list:Ref<any[]>) => {
         }else{
             activeIndex.value--;
         }
-    }
+    };
+    
     const go = (index: number) => {
         if (index >= list.length) {
             alert(`Cannot go to index ${index}. The list provided to useCycleList is not that long.`);
         } else {
             activeIndex.value = index;
         }
-    }
+    };
+    
     return{
         //state:state is equivalent to just state
         state,
@@ -47,4 +48,4 @@ export const useCycleList = (list:Ref<any[]>) => {
         prev,
         go,
     }
-}
+};
