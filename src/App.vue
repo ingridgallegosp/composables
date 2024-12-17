@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import { useCycleList } from './composables/useCycleList.ts';
-const { state, prev, next } = useCycleList(['gato', 'pez', 'perro']);
-
+import { ref } from 'vue';
+const  goTo = ref(0);
+const animals = ref(['gato', 'pez', 'perro', 'león']);
+const { state, prev, next, go } = useCycleList(animals.value);
 </script>
 
 <template>
-<div>{{state}}</div>
+    <div>{{state}}</div>
     <button @click="next">previous</button>
     <button @click="prev">next</button>
+    <input type="number" v-model="goTo" />
+    <button @click="go(goTo)">Go To</button>
 
 </template>
 

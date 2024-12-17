@@ -1,5 +1,6 @@
-import { computed, ref } from 'vue';
+import { computed, ref, type Ref } from 'vue';
 // First we create a function that will return an object with the state and the methods will need to use
+// return functions
 /*
 export const useCycleList = (list:any[]) => {
     return{
@@ -10,11 +11,13 @@ export const useCycleList = (list:any[]) => {
     }
 }
 */
-export const useCycleList = (list:any[]) => {
-    const activeIndex = ref(0);
+//export const useCycleList = (list:any[]) => {
+export const useCycleList = (list:Ref<any[]>) => {
+        
+        const activeIndex = ref(0);
     const state = computed(()=> list[activeIndex.value]);
     
-    const next = ()=>{
+    const prev = ()=>{
         if(activeIndex.value===list.length-1){
             activeIndex.value = 0;
         }else{
@@ -23,11 +26,18 @@ export const useCycleList = (list:any[]) => {
     };
     
  
-    const prev = ()=>{
+    const next = ()=>{
         if(activeIndex.value===0){
             activeIndex.value = list.length-1;
         }else{
             activeIndex.value--;
+        }
+    }
+    const go = (index: number) => {
+        if (index >= list.length) {
+            alert(`Cannot go to index ${index}. The list provided to useCycleList is not that long.`);
+        } else {
+            activeIndex.value = index;
         }
     }
     return{
@@ -35,6 +45,6 @@ export const useCycleList = (list:any[]) => {
         state,
         next,
         prev,
-        go: ()=>{},
+        go,
     }
 }
